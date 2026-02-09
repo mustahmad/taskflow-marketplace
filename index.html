@@ -62,7 +62,7 @@
                             <input type="password" id="login-password" placeholder="Введите пароль">
                         </div>
                         <button class="btn btn-primary btn-full" id="login-btn">Войти</button>
-                        <p class="auth-link">Забыли пароль? <a href="#">Восстановить</a></p>
+                        <p class="auth-link">Нет аккаунта? Переключитесь на <a href="#" id="switch-to-register">Регистрацию</a></p>
                     </div>
 
                     <!-- Register Form -->
@@ -154,10 +154,10 @@
                         <span>Создать</span>
                     </button>
                     <div class="sidebar-user">
-                        <div class="sidebar-user-avatar" id="sidebar-avatar">АК</div>
+                        <div class="sidebar-user-avatar" id="sidebar-avatar"></div>
                         <div class="sidebar-user-info">
-                            <span class="sidebar-user-name" id="sidebar-username">Алексей К.</span>
-                            <span class="sidebar-user-role">Заказчик / Исполнитель</span>
+                            <span class="sidebar-user-name" id="sidebar-username"></span>
+                            <span class="sidebar-user-role" id="sidebar-role"></span>
                         </div>
                     </div>
                 </div>
@@ -188,7 +188,7 @@
                         <div class="page-content">
                             <!-- Welcome -->
                             <div class="welcome-section">
-                                <h1 id="welcome-name">Привет, Алексей! 👋</h1>
+                                <h1 id="welcome-name">Привет! 👋</h1>
                                 <p>Найди исполнителя или предложи свои услуги</p>
                             </div>
 
@@ -443,7 +443,7 @@
                                 <div class="profile-left-col">
                                     <div class="profile-header-card">
                                         <div class="profile-avatar">
-                                            <div class="avatar-large" id="profile-avatar">АК</div>
+                                            <div class="avatar-large" id="profile-avatar"></div>
                                             <button class="edit-avatar-btn">
                                                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
                                                     <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
@@ -451,21 +451,21 @@
                                                 </svg>
                                             </button>
                                         </div>
-                                        <h2 class="profile-name" id="profile-name">Алексей К.</h2>
-                                        <p class="profile-role">Заказчик и исполнитель</p>
+                                        <h2 class="profile-name" id="profile-name"></h2>
+                                        <p class="profile-role" id="profile-role"></p>
                                         <div class="profile-stats">
                                             <div class="stat">
-                                                <span class="stat-value">4.9</span>
+                                                <span class="stat-value" id="profile-stat-rating">0.0</span>
                                                 <span class="stat-label">Рейтинг</span>
                                             </div>
                                             <div class="stat-divider"></div>
                                             <div class="stat">
-                                                <span class="stat-value">23</span>
-                                                <span class="stat-label">Заказа</span>
+                                                <span class="stat-value" id="profile-stat-orders">0</span>
+                                                <span class="stat-label">Заказов</span>
                                             </div>
                                             <div class="stat-divider"></div>
                                             <div class="stat">
-                                                <span class="stat-value">15</span>
+                                                <span class="stat-value" id="profile-stat-reviews">0</span>
                                                 <span class="stat-label">Отзывов</span>
                                             </div>
                                         </div>
@@ -473,18 +473,13 @@
 
                                     <div class="profile-section">
                                         <h3>О себе</h3>
-                                        <p class="profile-bio">Веб-разработчик с 5-летним опытом. Делаю сайты, лендинги, настраиваю рекламу. Быстро, качественно, по разумным ценам.</p>
+                                        <p class="profile-bio" id="profile-bio">Расскажите о себе в настройках профиля</p>
                                     </div>
 
                                     <div class="profile-section">
                                         <h3>Навыки</h3>
-                                        <div class="skills-list">
-                                            <span class="skill-tag">React</span>
-                                            <span class="skill-tag">JavaScript</span>
-                                            <span class="skill-tag">HTML/CSS</span>
-                                            <span class="skill-tag">Node.js</span>
-                                            <span class="skill-tag">Figma</span>
-                                            <span class="skill-tag">Яндекс.Директ</span>
+                                        <div class="skills-list" id="profile-skills">
+                                            <span class="skill-tag" style="opacity: 0.5">Добавьте навыки в профиле</span>
                                         </div>
                                     </div>
 

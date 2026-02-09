@@ -257,6 +257,7 @@ const REVIEWS = [
 let currentPage = 'home';
 let currentChat = null;
 let isLoggedIn = false;
+let currentUser = null;
 
 
 // ===== INIT =====
@@ -319,53 +320,126 @@ function initAuth() {
 
     document.getElementById('login-btn').addEventListener('click', () => {
         const email = document.getElementById('login-email').value.trim();
-        login(email || 'Пользователь');
+        const password = document.getElementById('login-password').value.trim();
+        if (!email) {
+            showToast('Введите телефон или email');
+            return;
+        }
+        if (!password) {
+            showToast('Введите пароль');
+            return;
+        }
+        // For demo: extract name from email or use phone
+        const name = email.includes('@') ? email.split('@')[0] : email;
+        loginUser({ name, role: 'both' });
     });
 
     document.getElementById('register-btn').addEventListener('click', () => {
         const name = document.getElementById('reg-name').value.trim();
-        if (!name) {
-            showToast('Введите ваше имя');
-            return;
-        }
-        login(name);
+        const phone = document.getElementById('reg-phone').value.trim();
+        const email = document.getElementById('reg-email').value.trim();
+        const password = document.getElementById('reg-password').value.trim();
+
+        if (!name) { showToast('Введите ваше имя'); return; }
+        if (!phone && !email) { showToast('Введите телефон или email'); return; }
+        if (!password) { showToast('Придумайте пароль'); return; }
+        if (password.length < 8) { showToast('Пароль минимум 8 символов'); return; }
+
+        const activeRole = document.querySelector('.role-btn.active');
+        const role = activeRole ? activeRole.dataset.role : 'both';
+
+        loginUser({ name, email, phone, role });
     });
 
     document.getElementById('logout-btn').addEventListener('click', () => {
         logout();
     });
+
+    // Switch to register link
+    const switchLink = document.getElementById('switch-to-register');
+    if (switchLink) {
+        switchLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            document.querySelectorAll('.auth-tab').forEach(t => {
+                t.classList.toggle('active', t.dataset.tab === 'register');
+            });
+            document.getElementById('login-form').classList.add('hidden');
+            document.getElementById('register-form').classList.remove('hidden');
+        });
+    }
 }
 
-function login(name) {
+function loginUser(userData) {
     isLoggedIn = true;
 
-    // Generate initials from name
-    const parts = name.split(/\s+/);
+    // Generate initials and display name
+    const parts = userData.name.split(/\s+/);
     const initials = parts.length >= 2
         ? (parts[0][0] + parts[1][0]).toUpperCase()
-        : name.substring(0, 2).toUpperCase();
-
-    // Short display name
+        : userData.name.substring(0, 2).toUpperCase();
     const displayName = parts.length >= 2
         ? parts[0] + ' ' + parts[1][0] + '.'
         : parts[0];
+    const firstName = parts[0];
 
-    // Update all UI elements with user name
-    document.getElementById('welcome-name').textContent = 'Привет, ' + parts[0] + '! 👋';
+    // Role labels
+    const roleLabels = {
+        both: 'Заказчик и исполнитель',
+        client: 'Заказчик',
+        freelancer: 'Исполнитель'
+    };
+    const roleLabel = roleLabels[userData.role] || roleLabels.both;
+
+    // Save current user
+    currentUser = {
+        name: userData.name,
+        displayName,
+        initials,
+        firstName,
+        role: userData.role,
+        roleLabel,
+        email: userData.email || '',
+        phone: userData.phone || '',
+        color: COLORS[Math.floor(Math.random() * COLORS.length)]
+    };
+
+    // Update all UI elements
+    document.getElementById('welcome-name').textContent = 'Привет, ' + firstName + '! 👋';
     document.getElementById('sidebar-avatar').textContent = initials;
+    document.getElementById('sidebar-avatar').style.background = currentUser.color;
     document.getElementById('sidebar-username').textContent = displayName;
+    document.getElementById('sidebar-role').textContent = roleLabel;
     document.getElementById('profile-avatar').textContent = initials;
     document.getElementById('profile-name').textContent = displayName;
+    document.getElementById('profile-role').textContent = roleLabel;
 
+    // Show app
     document.getElementById('auth-screen').classList.remove('active');
     document.getElementById('main-app').classList.remove('hidden');
-    showToast('Добро пожаловать, ' + parts[0] + '!');
+    showToast('Добро пожаловать, ' + firstName + '!');
 }
 
 function logout() {
     isLoggedIn = false;
+    currentUser = null;
+
+    // Clear form fields
+    document.querySelectorAll('#login-form input, #register-form input').forEach(input => {
+        input.value = '';
+    });
+
+    // Reset to login tab
+    document.querySelectorAll('.auth-tab').forEach(t => {
+        t.classList.toggle('active', t.dataset.tab === 'login');
+    });
+    document.getElementById('login-form').classList.remove('hidden');
+    document.getElementById('register-form').classList.add('hidden');
+
     document.getElementById('auth-screen').classList.add('active');
     document.getElementById('main-app').classList.add('hidden');
+
+    // Reset to home tab
+    switchTab('home');
 }
 
 
