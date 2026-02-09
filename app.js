@@ -318,11 +318,17 @@ function initAuth() {
     });
 
     document.getElementById('login-btn').addEventListener('click', () => {
-        login();
+        const email = document.getElementById('login-email').value.trim();
+        login(email || 'Пользователь');
     });
 
     document.getElementById('register-btn').addEventListener('click', () => {
-        login();
+        const name = document.getElementById('reg-name').value.trim();
+        if (!name) {
+            showToast('Введите ваше имя');
+            return;
+        }
+        login(name);
     });
 
     document.getElementById('logout-btn').addEventListener('click', () => {
@@ -330,11 +336,30 @@ function initAuth() {
     });
 }
 
-function login() {
+function login(name) {
     isLoggedIn = true;
+
+    // Generate initials from name
+    const parts = name.split(/\s+/);
+    const initials = parts.length >= 2
+        ? (parts[0][0] + parts[1][0]).toUpperCase()
+        : name.substring(0, 2).toUpperCase();
+
+    // Short display name
+    const displayName = parts.length >= 2
+        ? parts[0] + ' ' + parts[1][0] + '.'
+        : parts[0];
+
+    // Update all UI elements with user name
+    document.getElementById('welcome-name').textContent = 'Привет, ' + parts[0] + '! 👋';
+    document.getElementById('sidebar-avatar').textContent = initials;
+    document.getElementById('sidebar-username').textContent = displayName;
+    document.getElementById('profile-avatar').textContent = initials;
+    document.getElementById('profile-name').textContent = displayName;
+
     document.getElementById('auth-screen').classList.remove('active');
     document.getElementById('main-app').classList.remove('hidden');
-    showToast('Добро пожаловать в TaskFlow!');
+    showToast('Добро пожаловать, ' + parts[0] + '!');
 }
 
 function logout() {
