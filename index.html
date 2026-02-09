@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>TaskFlow — Биржа услуг</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="app" class="app">
+        <!-- Auth Screen -->
+        <div id="auth-screen" class="screen auth-screen active">
+            <div class="auth-left">
+                <div class="auth-hero">
+                    <div class="logo-icon">
+                        <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                            <rect width="48" height="48" rx="14" fill="#4F46E5"/>
+                            <path d="M14 20L22 14L30 20V30C30 31.1 29.1 32 28 32H16C14.9 32 14 31.1 14 30V20Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M20 32V24H24V32" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M32 16V14H36V18" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M36 24V34C36 35.1 35.1 36 34 36H30" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h1 class="auth-hero-title">TaskFlow</h1>
+                    <p class="auth-hero-sub">Найди исполнителя за минуты.<br>Зарабатывай на своих навыках.</p>
+                    <div class="auth-hero-features">
+                        <div class="hero-feature"><span class="hero-check">✓</span> Безопасная сделка через escrow</div>
+                        <div class="hero-feature"><span class="hero-check">✓</span> Комиссия всего 12%</div>
+                        <div class="hero-feature"><span class="hero-check">✓</span> Тысячи исполнителей онлайн</div>
+                    </div>
+                </div>
+            </div>
+            <div class="auth-right">
+                <div class="auth-container">
+                    <div class="auth-logo-mobile">
+                        <div class="logo-icon">
+                            <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                                <rect width="48" height="48" rx="14" fill="#4F46E5"/>
+                                <path d="M14 20L22 14L30 20V30C30 31.1 29.1 32 28 32H16C14.9 32 14 31.1 14 30V20Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M20 32V24H24V32" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <h1 class="auth-title">TaskFlow</h1>
+                        <p class="auth-subtitle">Биржа услуг для людей</p>
+                    </div>
+
+                    <!-- Login Form -->
+                    <div id="login-form" class="auth-form">
+                        <div class="auth-tabs">
+                            <button class="auth-tab active" data-tab="login">Вход</button>
+                            <button class="auth-tab" data-tab="register">Регистрация</button>
+                        </div>
+                        <div class="form-group">
+                            <label>Телефон или email</label>
+                            <input type="text" id="login-email" placeholder="+7 (999) 123-45-67">
+                        </div>
+                        <div class="form-group">
+                            <label>Пароль</label>
+                            <input type="password" id="login-password" placeholder="Введите пароль">
+                        </div>
+                        <button class="btn btn-primary btn-full" id="login-btn">Войти</button>
+                        <p class="auth-link">Забыли пароль? <a href="#">Восстановить</a></p>
+                    </div>
+
+                    <!-- Register Form -->
+                    <div id="register-form" class="auth-form hidden">
+                        <div class="auth-tabs">
+                            <button class="auth-tab" data-tab="login">Вход</button>
+                            <button class="auth-tab active" data-tab="register">Регистрация</button>
+                        </div>
+                        <div class="form-group">
+                            <label>Имя</label>
+                            <input type="text" id="reg-name" placeholder="Как вас зовут?">
+                        </div>
+                        <div class="form-group">
+                            <label>Телефон</label>
+                            <input type="tel" id="reg-phone" placeholder="+7 (999) 123-45-67">
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" id="reg-email" placeholder="email@example.com">
+                        </div>
+                        <div class="form-group">
+                            <label>Пароль</label>
+                            <input type="password" id="reg-password" placeholder="Минимум 8 символов">
+                        </div>
+                        <div class="form-group">
+                            <label>Я хочу</label>
+                            <div class="role-selector">
+                                <button class="role-btn active" data-role="both">Заказывать и выполнять</button>
+                                <button class="role-btn" data-role="client">Только заказывать</button>
+                                <button class="role-btn" data-role="freelancer">Только выполнять</button>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary btn-full" id="register-btn">Создать аккаунт</button>
+                        <p class="auth-terms">Регистрируясь, вы принимаете <a href="#">условия использования</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main App Container -->
+        <div id="main-app" class="main-app hidden">
+            <!-- Desktop Sidebar -->
+            <aside class="sidebar" id="sidebar">
+                <div class="sidebar-logo">
+                    <svg width="32" height="32" viewBox="0 0 48 48" fill="none">
+                        <rect width="48" height="48" rx="14" fill="#4F46E5"/>
+                        <path d="M14 20L22 14L30 20V30C30 31.1 29.1 32 28 32H16C14.9 32 14 31.1 14 30V20Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M20 32V24H24V32" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span class="sidebar-brand">TaskFlow</span>
+                </div>
+                <nav class="sidebar-nav">
+                    <button class="sidebar-item active" data-page="home">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                            <polyline points="9 22 9 12 15 12 15 22"/>
+                        </svg>
+                        <span>Главная</span>
+                    </button>
+                    <button class="sidebar-item" data-page="search">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"/>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                        </svg>
+                        <span>Поиск</span>
+                    </button>
+                    <button class="sidebar-item" data-page="chat">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                        </svg>
+                        <span>Сообщения</span>
+                        <span class="sidebar-badge">2</span>
+                    </button>
+                    <button class="sidebar-item" data-page="profile">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                            <circle cx="12" cy="7" r="4"/>
+                        </svg>
+                        <span>Профиль</span>
+                    </button>
+                </nav>
+                <div class="sidebar-bottom">
+                    <button class="sidebar-item" id="sidebar-create-btn">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <line x1="12" y1="8" x2="12" y2="16"/>
+                            <line x1="8" y1="12" x2="16" y2="12"/>
+                        </svg>
+                        <span>Создать</span>
+                    </button>
+                    <div class="sidebar-user">
+                        <div class="sidebar-user-avatar">АК</div>
+                        <div class="sidebar-user-info">
+                            <span class="sidebar-user-name">Алексей К.</span>
+                            <span class="sidebar-user-role">Заказчик / Исполнитель</span>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Main Content Area -->
+            <div class="main-content">
+                <!-- Header -->
+                <header class="header" id="main-header">
+                    <div class="header-left">
+                        <h2 class="header-title" id="header-title">Главная</h2>
+                    </div>
+                    <div class="header-right">
+                        <button class="icon-btn notification-btn" id="notification-btn">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                                <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+                            </svg>
+                            <span class="notification-badge">3</span>
+                        </button>
+                    </div>
+                </header>
+
+                <!-- Pages Container -->
+                <div class="pages-container">
+                    <!-- Page: Home -->
+                    <div id="page-home" class="page active">
+                        <div class="page-content">
+                            <!-- Welcome -->
+                            <div class="welcome-section">
+                                <h1>Привет, Алексей! 👋</h1>
+                                <p>Найди исполнителя или предложи свои услуги</p>
+                            </div>
+
+                            <!-- Quick Actions -->
+                            <div class="quick-actions">
+                                <button class="quick-action-btn" id="create-order-btn">
+                                    <div class="qa-icon" style="background: #EEF2FF">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#4F46E5" stroke-width="2">
+                                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                                            <line x1="12" y1="8" x2="12" y2="16"/>
+                                            <line x1="8" y1="12" x2="16" y2="12"/>
+                                        </svg>
+                                    </div>
+                                    <span>Создать заказ</span>
+                                </button>
+                                <button class="quick-action-btn" id="create-service-btn">
+                                    <div class="qa-icon" style="background: #F0FDF4">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2">
+                                            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                                            <path d="M2 17l10 5 10-5"/>
+                                            <path d="M2 12l10 5 10-5"/>
+                                        </svg>
+                                    </div>
+                                    <span>Моя услуга</span>
+                                </button>
+                                <button class="quick-action-btn" id="my-orders-btn">
+                                    <div class="qa-icon" style="background: #FFF7ED">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#EA580C" stroke-width="2">
+                                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                            <polyline points="14 2 14 8 20 8"/>
+                                            <line x1="16" y1="13" x2="8" y2="13"/>
+                                            <line x1="16" y1="17" x2="8" y2="17"/>
+                                            <polyline points="10 9 9 9 8 9"/>
+                                        </svg>
+                                    </div>
+                                    <span>Мои заказы</span>
+                                </button>
+                            </div>
+
+                            <!-- Categories -->
+                            <div class="section">
+                                <div class="section-header">
+                                    <h3>Категории</h3>
+                                    <a href="#" class="see-all" onclick="switchTab('search'); return false;">Все</a>
+                                </div>
+                                <div class="categories-scroll">
+                                    <div class="category-card" onclick="filterByCategory('design')">
+                                        <div class="cat-icon" style="background: #EEF2FF; color: #4F46E5;">🎨</div>
+                                        <span>Дизайн</span>
+                                    </div>
+                                    <div class="category-card" onclick="filterByCategory('dev')">
+                                        <div class="cat-icon" style="background: #F0FDF4; color: #16A34A;">💻</div>
+                                        <span>Разработка</span>
+                                    </div>
+                                    <div class="category-card" onclick="filterByCategory('text')">
+                                        <div class="cat-icon" style="background: #FFF7ED; color: #EA580C;">✍️</div>
+                                        <span>Тексты</span>
+                                    </div>
+                                    <div class="category-card" onclick="filterByCategory('translate')">
+                                        <div class="cat-icon" style="background: #FDF2F8; color: #DB2777;">🌍</div>
+                                        <span>Переводы</span>
+                                    </div>
+                                    <div class="category-card" onclick="filterByCategory('consult')">
+                                        <div class="cat-icon" style="background: #ECFDF5; color: #059669;">📊</div>
+                                        <span>Консалтинг</span>
+                                    </div>
+                                    <div class="category-card" onclick="filterByCategory('study')">
+                                        <div class="cat-icon" style="background: #EFF6FF; color: #2563EB;">📚</div>
+                                        <span>Обучение</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Desktop: two-column grid for services & orders -->
+                            <div class="home-grid">
+                                <!-- Popular Services -->
+                                <div class="section">
+                                    <div class="section-header">
+                                        <h3>Популярные услуги</h3>
+                                        <a href="#" class="see-all" onclick="switchTab('search'); return false;">Все</a>
+                                    </div>
+                                    <div class="services-list" id="popular-services">
+                                        <!-- Filled by JS -->
+                                    </div>
+                                </div>
+
+                                <!-- Active Orders -->
+                                <div class="section">
+                                    <div class="section-header">
+                                        <h3>Новые заказы</h3>
+                                        <a href="#" class="see-all" onclick="switchTab('search'); return false;">Все</a>
+                                    </div>
+                                    <div class="orders-list" id="new-orders">
+                                        <!-- Filled by JS -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Page: Search -->
+                    <div id="page-search" class="page">
+                        <div class="page-content">
+                            <div class="search-bar">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2">
+                                    <circle cx="11" cy="11" r="8"/>
+                                    <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                                </svg>
+                                <input type="text" id="search-input" placeholder="Поиск услуг и заказов...">
+                                <button class="filter-toggle" id="filter-toggle-btn">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <line x1="4" y1="21" x2="4" y2="14"/>
+                                        <line x1="4" y1="10" x2="4" y2="3"/>
+                                        <line x1="12" y1="21" x2="12" y2="12"/>
+                                        <line x1="12" y1="8" x2="12" y2="3"/>
+                                        <line x1="20" y1="21" x2="20" y2="16"/>
+                                        <line x1="20" y1="12" x2="20" y2="3"/>
+                                        <line x1="1" y1="14" x2="7" y2="14"/>
+                                        <line x1="9" y1="8" x2="15" y2="8"/>
+                                        <line x1="17" y1="16" x2="23" y2="16"/>
+                                    </svg>
+                                </button>
+                            </div>
+
+                            <!-- Search layout: sidebar filters on desktop -->
+                            <div class="search-layout">
+                                <!-- Filters -->
+                                <div id="filters-panel" class="filters-panel hidden">
+                                    <div class="filter-group">
+                                        <label>Тип</label>
+                                        <div class="filter-chips">
+                                            <button class="chip active" data-filter="all">Все</button>
+                                            <button class="chip" data-filter="services">Услуги</button>
+                                            <button class="chip" data-filter="orders">Заказы</button>
+                                        </div>
+                                    </div>
+                                    <div class="filter-group">
+                                        <label>Категория</label>
+                                        <div class="filter-chips" id="category-filters">
+                                            <button class="chip active" data-cat="all">Все</button>
+                                            <button class="chip" data-cat="design">Дизайн</button>
+                                            <button class="chip" data-cat="dev">Разработка</button>
+                                            <button class="chip" data-cat="text">Тексты</button>
+                                            <button class="chip" data-cat="translate">Переводы</button>
+                                            <button class="chip" data-cat="consult">Консалтинг</button>
+                                            <button class="chip" data-cat="study">Обучение</button>
+                                        </div>
+                                    </div>
+                                    <div class="filter-group">
+                                        <label>Цена</label>
+                                        <div class="price-range">
+                                            <input type="number" placeholder="От" id="price-from">
+                                            <span>—</span>
+                                            <input type="number" placeholder="До" id="price-to">
+                                            <span>₽</span>
+                                        </div>
+                                    </div>
+                                    <div class="filter-group">
+                                        <label>Рейтинг</label>
+                                        <div class="filter-chips">
+                                            <button class="chip active" data-rating="0">Любой</button>
+                                            <button class="chip" data-rating="4">4+ ★</button>
+                                            <button class="chip" data-rating="4.5">4.5+ ★</button>
+                                        </div>
+                                    </div>
+                                    <div class="filter-group">
+                                        <label>Сортировка</label>
+                                        <div class="filter-chips">
+                                            <button class="chip active" data-sort="popular">По популярности</button>
+                                            <button class="chip" data-sort="price-asc">Дешевле</button>
+                                            <button class="chip" data-sort="price-desc">Дороже</button>
+                                            <button class="chip" data-sort="rating">По рейтингу</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Search Results -->
+                                <div class="search-results" id="search-results">
+                                    <!-- Filled by JS -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Page: Chat (split view on desktop) -->
+                    <div id="page-chat" class="page">
+                        <div class="page-content chat-page-content">
+                            <!-- Chat List -->
+                            <div id="chat-list-panel" class="chat-list-panel">
+                                <div class="chat-list-header">
+                                    <h3>Сообщения</h3>
+                                </div>
+                                <div id="chat-list" class="chat-list">
+                                    <!-- Filled by JS -->
+                                </div>
+                            </div>
+
+                            <!-- Chat Window -->
+                            <div id="chat-window" class="chat-window">
+                                <div id="chat-empty-state" class="chat-empty-state">
+                                    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#D1D5DB" stroke-width="1.5">
+                                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                                    </svg>
+                                    <p>Выберите диалог</p>
+                                </div>
+                                <div id="chat-active" class="chat-active hidden">
+                                    <div class="chat-header">
+                                        <button class="back-btn" id="chat-back-btn">
+                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <polyline points="15 18 9 12 15 6"/>
+                                            </svg>
+                                        </button>
+                                        <div class="chat-user-info">
+                                            <div class="chat-avatar" id="chat-avatar">МС</div>
+                                            <div>
+                                                <div class="chat-username" id="chat-username">Мария С.</div>
+                                                <div class="chat-status">онлайн</div>
+                                            </div>
+                                        </div>
+                                        <button class="icon-btn">
+                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                    <div class="chat-messages" id="chat-messages">
+                                        <!-- Filled by JS -->
+                                    </div>
+                                    <div class="chat-input-area">
+                                        <button class="icon-btn attach-btn">
+                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/>
+                                            </svg>
+                                        </button>
+                                        <input type="text" id="chat-input" placeholder="Сообщение...">
+                                        <button class="send-btn" id="send-msg-btn">
+                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                                                <line x1="22" y1="2" x2="11" y2="13"/>
+                                                <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Page: Profile -->
+                    <div id="page-profile" class="page">
+                        <div class="page-content">
+                            <div class="profile-layout">
+                                <div class="profile-left-col">
+                                    <div class="profile-header-card">
+                                        <div class="profile-avatar">
+                                            <div class="avatar-large">АК</div>
+                                            <button class="edit-avatar-btn">
+                                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                                                    <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+                                                    <circle cx="12" cy="13" r="4"/>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                        <h2 class="profile-name">Алексей К.</h2>
+                                        <p class="profile-role">Заказчик и исполнитель</p>
+                                        <div class="profile-stats">
+                                            <div class="stat">
+                                                <span class="stat-value">4.9</span>
+                                                <span class="stat-label">Рейтинг</span>
+                                            </div>
+                                            <div class="stat-divider"></div>
+                                            <div class="stat">
+                                                <span class="stat-value">23</span>
+                                                <span class="stat-label">Заказа</span>
+                                            </div>
+                                            <div class="stat-divider"></div>
+                                            <div class="stat">
+                                                <span class="stat-value">15</span>
+                                                <span class="stat-label">Отзывов</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="profile-section">
+                                        <h3>О себе</h3>
+                                        <p class="profile-bio">Веб-разработчик с 5-летним опытом. Делаю сайты, лендинги, настраиваю рекламу. Быстро, качественно, по разумным ценам.</p>
+                                    </div>
+
+                                    <div class="profile-section">
+                                        <h3>Навыки</h3>
+                                        <div class="skills-list">
+                                            <span class="skill-tag">React</span>
+                                            <span class="skill-tag">JavaScript</span>
+                                            <span class="skill-tag">HTML/CSS</span>
+                                            <span class="skill-tag">Node.js</span>
+                                            <span class="skill-tag">Figma</span>
+                                            <span class="skill-tag">Яндекс.Директ</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="profile-menu">
+                                        <button class="menu-item" id="edit-profile-btn">
+                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                                                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                                            </svg>
+                                            <span>Редактировать профиль</span>
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+                                        </button>
+                                        <button class="menu-item">
+                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
+                                                <line x1="1" y1="10" x2="23" y2="10"/>
+                                            </svg>
+                                            <span>Платёжные данные</span>
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+                                        </button>
+                                        <button class="menu-item">
+                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <circle cx="12" cy="12" r="3"/>
+                                                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+                                            </svg>
+                                            <span>Настройки</span>
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+                                        </button>
+                                        <button class="menu-item">
+                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <circle cx="12" cy="12" r="10"/>
+                                                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+                                                <line x1="12" y1="17" x2="12.01" y2="17"/>
+                                            </svg>
+                                            <span>Помощь</span>
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+                                        </button>
+                                        <button class="menu-item menu-item-danger" id="logout-btn">
+                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                                                <polyline points="16 17 21 12 16 7"/>
+                                                <line x1="21" y1="12" x2="9" y2="12"/>
+                                            </svg>
+                                            <span>Выйти</span>
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="profile-right-col">
+                                    <div class="profile-section">
+                                        <h3>Мои услуги</h3>
+                                        <div class="my-services-list" id="my-services">
+                                            <!-- Filled by JS -->
+                                        </div>
+                                    </div>
+
+                                    <div class="profile-section">
+                                        <h3>Отзывы</h3>
+                                        <div class="reviews-list" id="profile-reviews">
+                                            <!-- Filled by JS -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bottom Navigation (mobile only) -->
+                <nav class="bottom-nav">
+                    <button class="nav-item active" data-page="home">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                            <polyline points="9 22 9 12 15 12 15 22"/>
+                        </svg>
+                        <span>Главная</span>
+                    </button>
+                    <button class="nav-item" data-page="search">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"/>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                        </svg>
+                        <span>Поиск</span>
+                    </button>
+                    <button class="nav-item" data-page="chat">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                        </svg>
+                        <span>Чат</span>
+                        <span class="nav-badge">2</span>
+                    </button>
+                    <button class="nav-item" data-page="profile">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                            <circle cx="12" cy="7" r="4"/>
+                        </svg>
+                        <span>Профиль</span>
+                    </button>
+                </nav>
+            </div>
+        </div>
+
+        <!-- Modal: Create Order -->
+        <div id="modal-create-order" class="modal hidden">
+            <div class="modal-overlay"></div>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Новый заказ</h3>
+                    <button class="modal-close">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Название</label>
+                        <input type="text" placeholder="Что нужно сделать?">
+                    </div>
+                    <div class="form-group">
+                        <label>Описание</label>
+                        <textarea rows="4" placeholder="Опишите задачу подробнее..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Категория</label>
+                        <select>
+                            <option>Выберите категорию</option>
+                            <option>Дизайн</option>
+                            <option>Разработка</option>
+                            <option>Тексты</option>
+                            <option>Переводы</option>
+                            <option>Консалтинг</option>
+                            <option>Обучение</option>
+                        </select>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Бюджет (₽)</label>
+                            <input type="number" placeholder="2000">
+                        </div>
+                        <div class="form-group">
+                            <label>Срок (дней)</label>
+                            <input type="number" placeholder="3">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Файлы</label>
+                        <div class="file-upload">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                <polyline points="17 8 12 3 7 8"/>
+                                <line x1="12" y1="3" x2="12" y2="15"/>
+                            </svg>
+                            <p>Перетащите файлы или <span>выберите</span></p>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary btn-full">Опубликовать заказ</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal: Create Service -->
+        <div id="modal-create-service" class="modal hidden">
+            <div class="modal-overlay"></div>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Новая услуга</h3>
+                    <button class="modal-close">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Название услуги</label>
+                        <input type="text" placeholder="Например: Создание логотипа">
+                    </div>
+                    <div class="form-group">
+                        <label>Описание</label>
+                        <textarea rows="4" placeholder="Что входит в услугу, сроки..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Категория</label>
+                        <select>
+                            <option>Выберите категорию</option>
+                            <option>Дизайн</option>
+                            <option>Разработка</option>
+                            <option>Тексты</option>
+                            <option>Переводы</option>
+                            <option>Консалтинг</option>
+                            <option>Обучение</option>
+                        </select>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Цена (₽)</label>
+                            <input type="number" placeholder="1500">
+                        </div>
+                        <div class="form-group">
+                            <label>Срок (дней)</label>
+                            <input type="number" placeholder="2">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Примеры работ</label>
+                        <div class="file-upload">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                <polyline points="17 8 12 3 7 8"/>
+                                <line x1="12" y1="3" x2="12" y2="15"/>
+                            </svg>
+                            <p>Загрузите примеры работ</p>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary btn-full">Опубликовать услугу</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal: Service Detail -->
+        <div id="modal-service-detail" class="modal hidden">
+            <div class="modal-overlay"></div>
+            <div class="modal-content modal-large">
+                <div class="modal-header">
+                    <h3 id="detail-title">Название услуги</h3>
+                    <button class="modal-close">&times;</button>
+                </div>
+                <div class="modal-body" id="detail-body">
+                    <!-- Filled by JS -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal: Order Payment (Escrow) -->
+        <div id="modal-payment" class="modal hidden">
+            <div class="modal-overlay"></div>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Безопасная оплата</h3>
+                    <button class="modal-close">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="escrow-info">
+                        <div class="escrow-step completed">
+                            <div class="escrow-icon">✓</div>
+                            <div>
+                                <strong>Оплата заказа</strong>
+                                <p>Деньги списываются с вашей карты</p>
+                            </div>
+                        </div>
+                        <div class="escrow-line"></div>
+                        <div class="escrow-step active">
+                            <div class="escrow-icon">🔒</div>
+                            <div>
+                                <strong>Деньги заморожены</strong>
+                                <p>Средства хранятся на защищённом счёте</p>
+                            </div>
+                        </div>
+                        <div class="escrow-line"></div>
+                        <div class="escrow-step">
+                            <div class="escrow-icon">⏳</div>
+                            <div>
+                                <strong>Исполнитель работает</strong>
+                                <p>Выполнение заказа</p>
+                            </div>
+                        </div>
+                        <div class="escrow-line"></div>
+                        <div class="escrow-step">
+                            <div class="escrow-icon">✅</div>
+                            <div>
+                                <strong>Вы подтверждаете</strong>
+                                <p>Проверяете и принимаете работу</p>
+                            </div>
+                        </div>
+                        <div class="escrow-line"></div>
+                        <div class="escrow-step">
+                            <div class="escrow-icon">💰</div>
+                            <div>
+                                <strong>Исполнитель получает оплату</strong>
+                                <p>Комиссия платформы: 12%</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="payment-summary">
+                        <div class="payment-row">
+                            <span>Стоимость услуги</span>
+                            <span id="payment-amount">2 000 ₽</span>
+                        </div>
+                        <div class="payment-row">
+                            <span>Комиссия платформы (12%)</span>
+                            <span id="payment-commission">240 ₽</span>
+                        </div>
+                        <div class="payment-row total">
+                            <span>Итого к оплате</span>
+                            <span id="payment-total">2 240 ₽</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Карта оплаты</label>
+                        <div class="card-input">
+                            <input type="text" placeholder="0000 0000 0000 0000" maxlength="19">
+                            <div class="card-extra">
+                                <input type="text" placeholder="ММ/ГГ" maxlength="5" style="width: 70px">
+                                <input type="text" placeholder="CVV" maxlength="3" style="width: 50px">
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary btn-full" id="pay-btn">Оплатить безопасно</button>
+                    <p class="escrow-note">Деньги будут заморожены до подтверждения выполнения заказа</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Notification Panel -->
+        <div id="notification-panel" class="notification-panel hidden">
+            <div class="notif-header">
+                <h3>Уведомления</h3>
+                <button class="notif-clear">Очистить</button>
+            </div>
+            <div class="notif-list">
+                <div class="notif-item unread">
+                    <div class="notif-icon" style="background: #EEF2FF; color: #4F46E5;">📩</div>
+                    <div class="notif-body">
+                        <p><strong>Новый отклик</strong> на ваш заказ «Дизайн логотипа»</p>
+                        <span class="notif-time">5 мин назад</span>
+                    </div>
+                </div>
+                <div class="notif-item unread">
+                    <div class="notif-icon" style="background: #F0FDF4; color: #16A34A;">✅</div>
+                    <div class="notif-body">
+                        <p><strong>Заказ выполнен!</strong> Проверьте работу от Мария С.</p>
+                        <span class="notif-time">1 час назад</span>
+                    </div>
+                </div>
+                <div class="notif-item">
+                    <div class="notif-icon" style="background: #FFF7ED; color: #EA580C;">⭐</div>
+                    <div class="notif-body">
+                        <p><strong>Новый отзыв</strong> — вам поставили 5 звёзд!</p>
+                        <span class="notif-time">3 часа назад</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Toast -->
+        <div id="toast" class="toast hidden">
+            <span id="toast-message"></span>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
